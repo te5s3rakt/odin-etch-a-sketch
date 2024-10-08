@@ -1,27 +1,17 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.header, .footer {
+/* .header, .footer, .content {
     width: 100vw;
-}
+} */
 
-.header {
+/* .header {
     display: flex;
     align-items: center;
     height: 54px;
     font-weight: bolder;
     font-size: 30px;
     letter-spacing: 1.5px;
-}
+} */
 
-.footer {
+/* .footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,4 +22,79 @@ body {
     color: rgb(209 213 219);
     font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 12px;
+}; */
+
+:root {
+    --toy-border: 100px;
+    --gold: #FFD700;
+}
+
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: var(--gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: grey;
+}
+
+.outer-rectangle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: calc(100% - 60px);
+    height: calc(100% - 60px);
+    background-color: red;
+    box-sizing: border-box;
+    border: 1px solid rgb(53, 7, 7); 
+    border-radius: 30px;
+    box-shadow: 
+        5px 5px 30px black,
+        0 0 40px rgb(53, 7, 7) inset;
+}
+
+.inner-rectangle {
+    width: calc(100% - calc(var(--toy-border) * 2)); 
+    height: calc(100% - calc(var(--toy-border) * 2));
+    background-color: whitesmoke;
+    box-sizing: border-box;
+    border: 1px solid rgb(53, 7, 7);
+    border-radius: 20px;
+    box-shadow: 0 0 10px black inset;
+}
+
+.knob {
+    height: 80%;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 6px dashed wheat;
+    background-color: whitesmoke;
+    box-shadow: 0 0 10px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#right-knob {margin-left: auto;}
+
+.header,
+.controls {
+    height: var(--toy-border);
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+}
+
+.controls {
+    width: calc(100% - calc(var(--toy-border) / 2));
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
 }
