@@ -25,7 +25,9 @@
 }; */
 
 :root {
+    --page-border: 20px;
     --toy-border: 100px;
+    --min-draw-width: 640px;
     --gold: #FFD700;
 }
 
@@ -41,25 +43,28 @@ body {
 }
 
 .outer-rectangle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: calc(100% - 60px);
-    height: calc(100% - 60px);
+    min-width: 640px;
+    min-height: 480px;
+    margin: 0 var(--page-border);
+    width: calc((4 / 3) * (100vmin - (var(--page-border) * 2)));
+    aspect-ratio: 4 / 3;
+    
     background-color: red;
-    box-sizing: border-box;
     border: 1px solid rgb(53, 7, 7); 
     border-radius: 30px;
     box-shadow: 
         5px 5px 30px black,
         0 0 40px rgb(53, 7, 7) inset;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .inner-rectangle {
     width: calc(100% - calc(var(--toy-border) * 2)); 
     height: calc(100% - calc(var(--toy-border) * 2));
     background-color: whitesmoke;
-    box-sizing: border-box;
     border: 1px solid rgb(53, 7, 7);
     border-radius: 20px;
     box-shadow: 0 0 10px black inset;
