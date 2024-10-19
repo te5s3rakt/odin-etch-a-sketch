@@ -44,6 +44,7 @@ html {
 body,
 html,
 .toy,
+.screen-control,
 .middle,
 .screen {
     display: flex;
@@ -71,6 +72,7 @@ html,
 }
 
 .header {
+    cursor: default;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -100,21 +102,82 @@ html,
 .toy-name {
     height: 70%;
     width: auto;
-    margin: 0 20px 0 5px;
+    margin-left: 5px;
 }
 
 .screen-control {
     margin: 0 auto;
+    flex-direction: column;
+    gap: 10px;
+    width: 125px;
 }
 
-.screen-control:hover {
-    background-color: whitesmoke;
+.screen-adjust {
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    background: whitesmoke;
+    border-radius: 6px;
+    width: 44px;
+    height: 20px;
+    transition: 
+        all 0.2s ease,
+        padding 0;
+}
+
+.screen-btn-enabled {
+    cursor: pointer;
+    box-shadow:
+        0 0 1px black,
+        0 0 10px black,
+        0 0 18px black;
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+    border-right: 2px solid rgba(0, 0, 0, 0.5); 
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    border-left: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.screen-btn-enabled:active {
+    border-top: 2px solid rgba(0, 0, 0, 0.5);
+    border-right: 2px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    border-left: 2px solid rgba(0, 0, 0, 0.5);
+    box-shadow:
+        0 0 1px black,
+        0 0 5px black;
+}
+
+.screen-btn-disabled {
+    cursor: default;
+    border: none;
+    padding: 2px;
+    box-shadow:
+        0 0 1px black inset,
+        0 0 3px black inset,
+        0 0 15px rgba(0, 0, 0, 0.5) inset,
+        0 0 2px var(--toy-frame-border-color);
 }
 
 .middle-left,
 .middle-right {
-    width: var(--toy-frame);
+    cursor: default;
+    align-self: flex-end;
+    color: var(--toy-frame-color);
+    display: flex;
+    font-size: 30px;
     overflow: hidden;
+    padding-bottom: 10px;
+    text-shadow: 0 0 1px black;
+    width: var(--toy-frame);
+}
+
+.middle-left {
+    justify-content: center;
+}
+
+.middle-right {
+    align-items: center;
+    flex-direction: column;
 }
 
 .screen {
@@ -125,7 +188,6 @@ html,
     aspect-ratio: 4 / 3;
     flex-direction: column;
     background-color: whitesmoke;
-    border: 0px solid var(--toy-frame-border-color);
     border-radius: 20px;
     box-shadow: 
         0 0 20px black inset,
@@ -134,17 +196,35 @@ html,
         0 0 5px var(--toy-frame-border-color);
 }
 
+.controls {
+    width: calc(100% - (var(--toy-frame) * 0.2 * 2));
+    display: flex;
+    overflow: visible;
+}
+
 .knob {
+    cursor: pointer;
     height: 80%;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
-    border-radius: 50%;
-    border: 6px dashed wheat;
     background-color: whitesmoke;
-    box-shadow: 0 0 10px black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-radius: 50%;
+    border-top: 6px dashed rgba(0, 0, 0, 0.2);
+    border-right: 6px dashed rgba(0, 0, 0, 0.5); 
+    border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
+    border-left: 6px dashed rgba(0, 0, 0, 0.2);
+    box-shadow: 
+        0 0 1px black,
+        0 0 10px black,
+        0 0 20px black;
+    transition: all 0.2s ease;
+}
+
+.knob:active {
+    border-top: 6px dashed rgba(0, 0, 0, 0.2);
+    border-right: 6px dashed rgba(0, 0, 0, 0.2); 
+    border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
+    border-left: 6px dashed rgba(0, 0, 0, 0.5);
 }
 
 #right-knob {margin-left: auto;}
