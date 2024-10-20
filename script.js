@@ -63,8 +63,7 @@ function rotateKnob(id, rotateClockwise) {
     knob.style.borderLeft = sheetBorder.top.replace(/rgba\((\d+), (\d+), (\d+), ([^)]+)\)/, `rgba($1, $2, $3, ${borderValues[3]})`);
 };
 
-let lastCoordinates;
-let currCoordinates;
+let lastCoordinates, currCoordinates;
 
 function animateKnobs() {
     if (lastCoordinates == undefined) return;
@@ -80,7 +79,43 @@ function animateKnobs() {
 
     if (currY > lastY) rotateKnob('#right-knob', true);
     if (currY < lastY) rotateKnob('#right-knob', false);
-}
+};
+
+function changePixelColor(pixel) {
+    const magneticDustColor = '#2b2b2b';
+
+    const maxX = parseInt(screenSize.textContent) - 1;
+    const maxY = (parseInt(screenSize.textContent) * 3 / 4) - 1;
+
+    const currX = currCoordinates[0];
+    const currY = currCoordinates[1];
+
+    const background = {
+        topLeft: '#2b2b2b',
+        top: 'linear-gradient(to bottom, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
+        topRight: '#2b2b2b',
+        right: 'linear-gradient(to left, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
+        bottomRight: '#2b2b2b',
+        bottom: 'linear-gradient(to top, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
+        bottomLeft: '#2b2b2b',
+        left: 'linear-gradient(to right, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
+        middle: magneticDustColor
+    };
+
+    if (currX == 0 && currY == 0) {pixel.style.background = background.topLeft; return};
+    if (currX == maxX && currY == 0) {pixel.style.background = background.topRight; return};
+    if (currX == maxX && currY == maxY) {pixel.style.background = background.bottomRight; return};
+    if (currX == 0 && currY == maxY) {pixel.style.background = background.bottomLeft; return};
+
+    if (currY == 0) {pixel.style.background = background.top; return};
+    if (currX == maxX) {pixel.style.background = background.right; return};
+    if (currY == maxY) {pixel.style.background = background.bottom; return};
+    if (currX == 0) {pixel.style.background = background.left; return};
+
+    pixel.style.background = background.middle;
+
+    // pixel.style.background = 'linear-gradient(to right, transparent, ' + magneticDustColor + ')';
+};
 
 function renderScreen() {
     let renderWidth = parseInt(screenSize.textContent);
@@ -88,9 +123,9 @@ function renderScreen() {
 
     while (screenArea.firstChild) screenArea.removeChild(screenArea.firstChild);
 
-    for (let x = 0; x < renderWidth; x++) {
+    for (let y = 0; y < renderHeight; y++) {
 
-        for (let y = 0; y < renderHeight; y++) {
+        for (let x = 0; x < renderWidth; x++) {
             const pixel = document.createElement('div');
             
             pixel.classList.add('pixel');
@@ -106,12 +141,13 @@ function renderScreen() {
             pixel.addEventListener('mouseover', () => {
                 currCoordinates = setCoordinates(pixel);
                 animateKnobs();
+                changePixelColor(pixel);
             });
 
             screenArea.appendChild(pixel);
         };
     };
-}
+};
 
 function changeScreenSize (button) {
     const upperLimit = 100;

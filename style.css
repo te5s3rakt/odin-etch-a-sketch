@@ -186,7 +186,6 @@ html,
     max-width: calc((100vh - (var(--toy-frame) * 2) - (var(--toy-margin) * 2)) * 4 / 3);
     width: calc(100vw - (var(--toy-frame) * 2) - (var(--toy-margin) * 2));
     aspect-ratio: 4 / 3;
-    flex-direction: column;
     background-color: whitesmoke;
     border-radius: 20px;
     box-shadow: 
@@ -196,6 +195,7 @@ html,
         0 0 5px var(--toy-frame-border-color);
     display: flex;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 .pixel {
