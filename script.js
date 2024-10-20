@@ -1,24 +1,6 @@
-// const content = document.querySelector('.content');
-
-// function grid(count) {
-//     const grid = document.createElement('div');
-
-//     grid.classList.add('grid');
-    
-//     for (let i = 0; i < count; i++) {
-//         const newCell = document.createElement('div');
-//         newCell.classList.add('grid-cell')
-//         newCell.textContent = i + 1;
-//         grid.appendChild(newCell);
-//     };
-    
-//     return grid;
-// };
-
-// content.appendChild(grid(16 * 16));
-
 const screenButtons = document.querySelectorAll('button.screen-adjust');
 const screenSize = document.querySelector('#screen-size');
+const screenArea = document.querySelector('.screen');
 
 screenButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -67,69 +49,18 @@ function changeScreenSize (button) {
             increaseBtn.classList.add('screen-btn-enabled');
         };
     };
+
+    renderScreen();
 };
 
-const screenArea = document.querySelector('.screen');
-const leftKnob = document.querySelector('#left-knob');
-const rightKnob = document.querySelector('#right-knob');
-
-// const mouseMovementStep = 20;
-// let lastX = 0;
-// let lastY = 0;
-
-// screenArea.addEventListener('mousemove', (event) => {
-//     const currX = event.clientX - screenArea.getBoundingClientRect().left;
-//     const currY = event.clientY - screenArea.getBoundingClientRect().top;
-
-//     if (currX - lastX >= mouseMovementStep) {
-
-//         const targetDiv = document.querySelector('#target-div');
-//         const classesToRemove = Array.from(targetDiv.classList).filter(className => className.startsWith('knob-turn'));
-        
-//         classesToRemove.forEach(className => targetDiv.classList.remove(className));
-        
-//         leftKnob.classList.remove('old-class');
-//         leftKnob.classList.add('new-class');
-//         lastX = x;
-//     };
-
-//     if (currX - lastX <= 0 - mouseMovementStep) {
-//         leftKnob.classList.remove('old-class');
-//         leftKnob.classList.add('new-class');
-//         lastX = x;
-//     }
-// });
-
-function renderScreen(units) {
-    let renderWidth = parseInt(screenSize.textContent);
-    let renderHeight = parseInt(screenSize.textContent) * 3 / 4;
-
-    for (let i = 0; i < renderHeight; i++) {
-                const newCell = document.createElement('div');
-                newCell.classList.add('grid-cell')
-                newCell.textContent = i + 1;
-                grid.appendChild(newCell);
-            };
-
-    const pixel = document.createElement('div');
-}
-
-const knobs = document.querySelectorAll('.knob');
-
-knobs.forEach((div) => {
-    div.addEventListener('click', () => {
-        rotateKnob(div.id);
-        });
-    });
-
-function rotateKnob(id, direction) {
-    const knob = document.querySelector('#' + id);
+function rotateKnob(id, rotateClockwise) {
+    const knob = document.querySelector(id);
 
     const sheetBorder = {
-        top: window.getComputedStyle(knob).borderTopColor,
-        right: window.getComputedStyle(knob).borderRightColor,
-        bottom: window.getComputedStyle(knob).borderBottomColor,
-        left: window.getComputedStyle(knob).borderLeftColor
+        top: window.getComputedStyle(knob).borderTop,
+        right: window.getComputedStyle(knob).borderRight,
+        bottom: window.getComputedStyle(knob).borderBottom,
+        left: window.getComputedStyle(knob).borderLeft
     };
 
     const inlineBorder = {
@@ -141,7 +72,7 @@ function rotateKnob(id, direction) {
 
     const inlineBordersAreBlank = Object.values(inlineBorder).every(value => value === '');
 
-    let clockwise = (direction == undefined) ? true : false;
+    let clockwise = (rotateClockwise == undefined || rotateClockwise == true) ? true : false;
 
     let borderValues, top, right, bottom, left;
 
@@ -170,8 +101,63 @@ function rotateKnob(id, direction) {
         borderValues.push(borderValues.shift());
     };
 
-    knob.style.borderTop = '6px dashed rgba(0, 0, 0, ' + borderValues[0] + ')';
-    knob.style.borderRight = '6px dashed rgba(0, 0, 0, ' + borderValues[1] + ')';
-    knob.style.borderBottom = '6px dashed rgba(0, 0, 0, ' + borderValues[2] + ')';
-    knob.style.borderLeft = '6px dashed rgba(0, 0, 0, ' + borderValues[3] + ')';
+    knob.style.borderTop = sheetBorder.top.replace(/rgba\((\d+), (\d+), (\d+), ([^)]+)\)/, `rgba($1, $2, $3, ${borderValues[0]})`);
+    knob.style.borderRight = sheetBorder.top.replace(/rgba\((\d+), (\d+), (\d+), ([^)]+)\)/, `rgba($1, $2, $3, ${borderValues[1]})`);
+    knob.style.borderBottom = sheetBorder.top.replace(/rgba\((\d+), (\d+), (\d+), ([^)]+)\)/, `rgba($1, $2, $3, ${borderValues[2]})`);
+    knob.style.borderLeft = sheetBorder.top.replace(/rgba\((\d+), (\d+), (\d+), ([^)]+)\)/, `rgba($1, $2, $3, ${borderValues[3]})`);
 };
+
+let lastCoordinates = [0,0];
+let currCoordinates = [0,0];
+
+function setCoordinates(pixel) {
+    const selectedPixel = document.getElementById(pixel.id);
+    return selectedPixel.id.split(',').map(Number);
+};
+
+function animateKnobs() {
+    const lastX = lastCoordinates[0];
+    const lastY = lastCoordinates[1];
+
+    const currX = currCoordinates[0];
+    const currY = currCoordinates[1];
+
+    if (currX > lastX) rotateKnob('#left-knob', true);
+    if (currX < lastX) rotateKnob('#left-knob', false);
+
+    if (currY > lastY) rotateKnob('#right-knob', true);
+    if (currY < lastY) rotateKnob('#right-knob', false);
+}
+
+function renderScreen() {
+    let renderWidth = parseInt(screenSize.textContent);
+    let renderHeight = parseInt(screenSize.textContent) * 3 / 4;
+
+    while (screenArea.firstChild) screenArea.removeChild(screenArea.firstChild);
+
+    for (let x = 0; x < renderWidth; x++) {
+
+        for (let y = 0; y < renderHeight; y++) {
+            const pixel = document.createElement('div');
+            
+            pixel.classList.add('pixel');
+            pixel.id = x + ',' + y;
+
+            pixel.style.width = (1 / renderWidth * 100) + '%';
+            pixel.style.height = (1 / renderHeight * 100) + '%';
+
+            pixel.addEventListener('mouseout', () => {
+                lastCoordinates = setCoordinates(pixel);
+            });
+
+            pixel.addEventListener('mouseover', () => {
+                currCoordinates = setCoordinates(pixel);
+                animateKnobs();
+            });
+
+            screenArea.appendChild(pixel);
+        };
+    };
+}
+
+renderScreen();

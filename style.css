@@ -30,6 +30,7 @@
     --toy-frame-color: red;
     --toy-frame-border-color: rgb(53, 7, 7);
     --gold: rgb(255, 215, 0);
+    --gold-rgb: 255, 215, 0;
 }
 
 body,
@@ -45,8 +46,7 @@ body,
 html,
 .toy,
 .screen-control,
-.middle,
-.screen {
+.middle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -194,6 +194,15 @@ html,
         0 0 5px black inset,
         0 0 60px var(--toy-frame-border-color),
         0 0 5px var(--toy-frame-border-color);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pixel {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
 }
 
 .controls {
@@ -203,7 +212,8 @@ html,
 }
 
 .knob {
-    cursor: pointer;
+    cursor: default;
+    /* cursor: pointer; */
     height: 80%;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;
@@ -212,44 +222,24 @@ html,
     box-shadow: 
         0 0 1px black,
         0 0 10px black,
-        0 0 20px black;
-    transition: all 0.2s ease;
+        0 0 20px black,
+        0 0 5px black inset;
+    /* transition: all 0.5s ease; */
     border-top: 6px dashed rgba(0, 0, 0, 0.2);
     border-right: 6px dashed rgba(0, 0, 0, 0.5); 
     border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
     border-left: 6px dashed rgba(0, 0, 0, 0.2);
 }
 
-/* 
-.knob-turn-0 {
-}
+#right-knob {margin-left: auto}
 
-.knob-turn-90 {
-    border-top: 6px dashed rgba(0, 0, 0, 0.2);
-    border-right: 6px dashed rgba(0, 0, 0, 0.2); 
-    border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
-    border-left: 6px dashed rgba(0, 0, 0, 0.5);
-}
-
-.knob-turn-180 {
-    border-top: 6px dashed rgba(0, 0, 0, 0.5);
-    border-right: 6px dashed rgba(0, 0, 0, 0.2); 
-    border-bottom: 6px dashed rgba(0, 0, 0, 0.2);
-    border-left: 6px dashed rgba(0, 0, 0, 0.5);
-}
-
-.knob-turn-270 {
-    border-top: 6px dashed rgba(0, 0, 0, 0.5);
-    border-right: 6px dashed rgba(0, 0, 0, 0.5); 
-    border-bottom: 6px dashed rgba(0, 0, 0, 0.2);
-    border-left: 6px dashed rgba(0, 0, 0, 0.2);
+/* .knob-dot {
+    position: relative;
+    top: 0;
+    left: calc(50% - 2.5px);
+    height: 20px;
+    width: 6px;
+    background-color: rgba(var(--gold-rgb), 1);
+    box-shadow:
+        0 0 2px black inset;
 } */
-
-/* .knob:active {
-    border-top: 6px dashed rgba(0, 0, 0, 0.2);
-    border-right: 6px dashed rgba(0, 0, 0, 0.2); 
-    border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
-    border-left: 6px dashed rgba(0, 0, 0, 0.5);
-} */
-
-#right-knob {margin-left: auto;}
