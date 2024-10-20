@@ -122,42 +122,53 @@ knobs.forEach((div) => {
         });
     });
 
-function rotateKnob(id) {
+function rotateKnob(id, direction) {
     const knob = document.querySelector('#' + id);
 
-    const inlineBorderTop = knob.style.borderTop;
-    const inlineBorderRight = knob.style.borderRight;
-    const inlineBorderBottom = knob.style.borderBottom;
-    const inlineBorderLeft = knob.style.borderLeft;
-
-    let borderValues
-
-    if (
-        inlineBorderTop == '' ||
-        inlineBorderRight == '' ||
-        inlineBorderBottom == '' ||
-        inlineBorderLeft == ''
-    ) {
-        const top = window.getComputedStyle(knob).borderTopColor.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1];
-        const right = window.getComputedStyle(knob).borderRightColor.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1];
-        const bottom = window.getComputedStyle(knob).borderBottomColor.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1];
-        const left = window.getComputedStyle(knob).borderLeftColor.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1];
-
-        borderValues = [top, right, bottom, left].map(parseFloat);
-        console.log('style detected');
-    } else {
-        borderValues = [
-            inlineBorderTop.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
-            inlineBorderRight.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
-            inlineBorderBottom.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
-            inlineBorderLeft.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1]
-        ].map(parseFloat);
-        console.log('inline detected');
+    const sheetBorder = {
+        top: window.getComputedStyle(knob).borderTopColor,
+        right: window.getComputedStyle(knob).borderRightColor,
+        bottom: window.getComputedStyle(knob).borderBottomColor,
+        left: window.getComputedStyle(knob).borderLeftColor
     };
 
-    borderValues.unshift(borderValues.pop());  
+    const inlineBorder = {
+        top: knob.style.borderTop,
+        right: knob.style.borderRight,
+        bottom: knob.style.borderBottom,
+        left: knob.style.borderLeft
+    };
 
-    console.log(borderValues);
+    const inlineBordersAreBlank = Object.values(inlineBorder).every(value => value === '');
+
+    let clockwise = (direction == undefined) ? true : false;
+
+    let borderValues, top, right, bottom, left;
+
+    if (inlineBordersAreBlank) {
+        top = sheetBorder.top;
+        right = sheetBorder.right;
+        bottom = sheetBorder.bottom;
+        left = sheetBorder.left;
+    } else {
+        top = inlineBorder.top;
+        right = inlineBorder.right;
+        bottom = inlineBorder.bottom;
+        left = inlineBorder.left;
+    };
+
+    borderValues = [
+        top.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
+        right.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
+        bottom.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1],
+        left.match(/rgba\(\d+, \d+, \d+, ([^)]+)\)/)[1]
+    ].map(parseFloat);
+
+    if (clockwise) {
+        borderValues.unshift(borderValues.pop());
+    } else {
+        borderValues.push(borderValues.shift());
+    };
 
     knob.style.borderTop = '6px dashed rgba(0, 0, 0, ' + borderValues[0] + ')';
     knob.style.borderRight = '6px dashed rgba(0, 0, 0, ' + borderValues[1] + ')';
