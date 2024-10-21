@@ -105,10 +105,6 @@ function changePixelColor(pixel) {
     const pixelIsLeft = currX == 0 && currY !== 0 && currY !== maxY;
 
     const boxShadow = {
-        // top: '0 20px 20px -20px black inset, 0 5px 5px -5px black inset',
-        // right: '-20px 0 20px -20px black inset, -5px 0 5px -5px black inset',
-        // bottom: '0 -20px 20px -20px black inset, 0 -5px 5px -5px black inset',
-        // left: '20px 0 20px -20px black inset, 5px 0 5px -5px black inset'
         top: '0 5px 5px -5px black inset',
         right: '-5px 0 5px -5px black inset',
         bottom: '0 -5px 5px -5px black inset',
@@ -132,6 +128,8 @@ function renderScreen() {
     let renderWidth = parseInt(screenSize.textContent);
     let renderHeight = parseInt(screenSize.textContent) * 3 / 4;
 
+    const pixelMargin = parseFloat(window.getComputedStyle(document.querySelector('.pixel')).margin);
+
     while (screenArea.firstChild) screenArea.removeChild(screenArea.firstChild);
 
     for (let y = 0; y < renderHeight; y++) {
@@ -142,8 +140,8 @@ function renderScreen() {
             pixel.classList.add('pixel');
             pixel.id = x + ',' + y;
 
-            pixel.style.width = 'calc(' + (1 / renderWidth * 100) + '% - 1px)';
-            pixel.style.height = 'calc(' + (1 / renderHeight * 100) + '% - 1px)';
+            pixel.style.width = 'calc(' + (1 / renderWidth * 100) + '% - ' + pixelMargin * 2 + 'px)';
+            pixel.style.height = 'calc(' + (1 / renderHeight * 100) + '% - ' + pixelMargin * 2 + 'px)';
 
             pixel.addEventListener('mouseout', () => {
                 lastCoordinates = setCoordinates(pixel);

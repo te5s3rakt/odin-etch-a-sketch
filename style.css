@@ -1,29 +1,3 @@
-/* .header, .footer, .content {
-    width: 100vw;
-} */
-
-/* .header {
-    display: flex;
-    align-items: center;
-    height: 54px;
-    font-weight: bolder;
-    font-size: 30px;
-    letter-spacing: 1.5px;
-} */
-
-/* .footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 42px;
-    position: fixed;
-    bottom: 0;
-    background-color: rgb(17 24 39);
-    color: rgb(209 213 219);
-    font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 12px;
-}; */
-
 :root {
     --toy-margin: 20px;
     --toy-frame: 120px;
@@ -194,7 +168,6 @@ svg {
     background-color: whitesmoke;
     border-radius: 20px;
     box-shadow: 
-        /* 0 0 20px black inset, */
         0 0 10px black inset,
         0 0 60px var(--toy-frame-border-color),
         0 0 5px var(--toy-frame-border-color);
@@ -228,7 +201,6 @@ svg {
         0 0 10px black,
         0 0 20px black,
         0 0 5px black inset;
-    /* transition: all 0.5s ease; */
     border-top: 6px dashed rgba(0, 0, 0, 0.2);
     border-right: 6px dashed rgba(0, 0, 0, 0.5); 
     border-bottom: 6px dashed rgba(0, 0, 0, 0.5);
@@ -236,14 +208,3 @@ svg {
 }
 
 #right-knob {margin-left: auto}
-
-/* .knob-dot {
-    position: relative;
-    top: 0;
-    left: calc(50% - 2.5px);
-    height: 20px;
-    width: 6px;
-    background-color: rgba(var(--gold-rgb), 1);
-    box-shadow:
-        0 0 2px black inset;
-} */
