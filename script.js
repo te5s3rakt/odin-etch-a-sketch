@@ -4,6 +4,8 @@ const screenSize = document.querySelector('#screen-size');
 
 const screenArea = document.querySelector('.screen');
 
+const pixelBehavior = document.querySelector('.pixel-behavior');
+
 function setCoordinates(pixel) {
     const selectedPixel = document.getElementById(pixel.id);
     return selectedPixel.id.split(',').map(Number);
@@ -81,13 +83,47 @@ function animateKnobs() {
     if (currY < lastY) rotateKnob('#right-knob', false);
 };
 
+function generateRandomColor() {
+    function randomValue() {return Math.floor(Math.random() * 256)};
+    
+    return 'rgb(' + randomValue() + ',' + randomValue() + ',' + randomValue() + ')';
+};
+
+function generateRainbowString(string) {
+    const chars = string.split('');
+    const fragment = document.createDocumentFragment();
+    
+    chars.forEach(letter => {
+        const letterSpan = document.createElement('span');
+        letterSpan.textContent = letter;
+        letterSpan.style.color = generateRandomColor();
+        fragment.appendChild(letterSpan);
+    });
+    
+    return fragment.childNodes;
+};
+
+function changePixelBehavior() {
+    const current = pixelBehavior.id;
+
+    while (pixelBehavior.firstChild) pixelBehavior.removeChild(pixelBehavior.firstChild);
+
+    if (current == 'classic') {
+        const fancyLetters = Array.from(generateRainbowString('WACKY'));
+        pixelBehavior.id = 'wacky';
+        fancyLetters.forEach(node => {pixelBehavior.appendChild(node)});
+    };
+
+    if (current == 'wacky') {
+        pixelBehavior.id = 'classic';
+        pixelBehavior.textContent = 'CLASSIC';
+    };
+};
+
 function changePixelColor(pixel) {
     const magneticDustColor = 'rgb(43, 43, 43)';
 
-    const edgeFadeColor = (function() {
-            let values = magneticDustColor.match(/\d+/g).map(Number).map(value => Math.round(value / 2));
-            return `rgb(${values[0]}, ${values[1]}, ${values[2]})`;
-        })();
+    const pixelIsClassic = pixelBehavior.id == 'classic' ? true : false;
 
     const maxX = parseInt(screenSize.textContent) - 1;
     const maxY = (parseInt(screenSize.textContent) * 3 / 4) - 1;
@@ -121,7 +157,11 @@ function changePixelColor(pixel) {
     if (pixelIsBottom) pixel.style.boxShadow = boxShadow.bottom;
     if (pixelIsLeft) pixel.style.boxShadow = boxShadow.left;
 
-    pixel.style.background = magneticDustColor;
+    if (pixelIsClassic) {
+        pixel.style.background = magneticDustColor;
+    } else {
+        pixel.style.background = generateRandomColor();
+    }
 };
 
 function renderScreen() {
@@ -208,5 +248,10 @@ screenButtons.forEach((button) => {
         changeScreenSize(button);
         });
     });
+
+pixelBehavior.addEventListener('click', () => {
+    changePixelBehavior();
+    renderScreen();
+});
 
 renderScreen();

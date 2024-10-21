@@ -208,3 +208,44 @@ svg {
 }
 
 #right-knob {margin-left: auto}
+
+.marketing {
+    color: var(--toy-frame-color);
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    font-weight: 900;
+    justify-content: center;
+    text-shadow: 0 0 1px black;
+    width: 100%;
+    text-align: center;
+    gap: 10px;
+}
+
+.marketing-one {
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.marketing-two {
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.pixel-behavior {
+    background-color: #f0e6d2;
+    width: 126px;
+    box-shadow: 
+        0 0 1px black,
+        0 0 1px rgb(0, 0, 0, 0.2) inset;
+    cursor: pointer;
+}
+
+.pixel-behavior:hover {
+    color: var(--gold);
+}
+
+#classic {
+    color: rgb(var(--magnetic-dust-color-rgb));
+}
