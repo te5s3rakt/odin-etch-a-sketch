@@ -31,6 +31,7 @@
     --toy-frame-border-color: rgb(53, 7, 7);
     --gold: rgb(255, 215, 0);
     --gold-rgb: 255, 215, 0;
+    --magnetic-dust-color-rgb: 43, 43, 43;
 }
 
 body,
@@ -82,6 +83,10 @@ html,
     text-shadow:
         0px 0px 1px rgb(255, 215, 0, 0.2),
         0px 0px 3px black; 
+}
+
+svg {
+    overflow: visible;
 }
 
 .logo-border {
@@ -189,20 +194,21 @@ html,
     background-color: whitesmoke;
     border-radius: 20px;
     box-shadow: 
-        0 0 20px black inset,
-        0 0 5px black inset,
+        /* 0 0 20px black inset, */
+        0 0 10px black inset,
         0 0 60px var(--toy-frame-border-color),
         0 0 5px var(--toy-frame-border-color);
+    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    overflow: hidden;
 }
 
 .pixel {
     padding: 0;
-    margin: 0;
+    margin: 0.5px;
     box-sizing: border-box;
     border: none;
+    border-radius: 10%;
 }
 
 .controls {
@@ -212,8 +218,6 @@ html,
 }
 
 .knob {
-    cursor: default;
-    /* cursor: pointer; */
     height: 80%;
     aspect-ratio: 1 / 1;
     box-sizing: border-box;

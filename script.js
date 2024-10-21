@@ -82,7 +82,12 @@ function animateKnobs() {
 };
 
 function changePixelColor(pixel) {
-    const magneticDustColor = '#2b2b2b';
+    const magneticDustColor = 'rgb(43, 43, 43)';
+
+    const edgeFadeColor = (function() {
+            let values = magneticDustColor.match(/\d+/g).map(Number).map(value => Math.round(value / 2));
+            return `rgb(${values[0]}, ${values[1]}, ${values[2]})`;
+        })();
 
     const maxX = parseInt(screenSize.textContent) - 1;
     const maxY = (parseInt(screenSize.textContent) * 3 / 4) - 1;
@@ -90,31 +95,37 @@ function changePixelColor(pixel) {
     const currX = currCoordinates[0];
     const currY = currCoordinates[1];
 
-    const background = {
-        topLeft: '#2b2b2b',
-        top: 'linear-gradient(to bottom, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
-        topRight: '#2b2b2b',
-        right: 'linear-gradient(to left, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
-        bottomRight: '#2b2b2b',
-        bottom: 'linear-gradient(to top, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
-        bottomLeft: '#2b2b2b',
-        left: 'linear-gradient(to right, transparent, ' + magneticDustColor + ' 25%, ' + magneticDustColor + ')',
-        middle: magneticDustColor
+    const pixelIsTopLeft = currX == 0 && currY == 0;
+    const pixelIsTopRight = currX == maxX && currY == 0;
+    const pixelIsBottomRight = currX == maxX && currY == maxY;
+    const pixelIsBottomLeft = currX == 0 && currY == maxY;
+    const pixelIsTop = currY == 0 && currX !== 0 && currX !== maxX;
+    const pixelIsRight = currX == maxX && currY !== 0 && currY !== maxY;
+    const pixelIsBottom = currY == maxY && currX !== 0 && currX !== maxX;
+    const pixelIsLeft = currX == 0 && currY !== 0 && currY !== maxY;
+
+    const boxShadow = {
+        // top: '0 20px 20px -20px black inset, 0 5px 5px -5px black inset',
+        // right: '-20px 0 20px -20px black inset, -5px 0 5px -5px black inset',
+        // bottom: '0 -20px 20px -20px black inset, 0 -5px 5px -5px black inset',
+        // left: '20px 0 20px -20px black inset, 5px 0 5px -5px black inset'
+        top: '0 5px 5px -5px black inset',
+        right: '-5px 0 5px -5px black inset',
+        bottom: '0 -5px 5px -5px black inset',
+        left: '5px 0 5px -5px black inset'
     };
 
-    if (currX == 0 && currY == 0) {pixel.style.background = background.topLeft; return};
-    if (currX == maxX && currY == 0) {pixel.style.background = background.topRight; return};
-    if (currX == maxX && currY == maxY) {pixel.style.background = background.bottomRight; return};
-    if (currX == 0 && currY == maxY) {pixel.style.background = background.bottomLeft; return};
+    if (pixelIsTopLeft) pixel.style.boxShadow = boxShadow.top + ', ' + boxShadow.left;
+    if (pixelIsTopRight) pixel.style.boxShadow = boxShadow.top + ', ' + boxShadow.right;
+    if (pixelIsBottomRight) pixel.style.boxShadow = boxShadow.bottom + ', ' + boxShadow.right;
+    if (pixelIsBottomLeft) pixel.style.boxShadow = boxShadow.bottom + ', ' + boxShadow.left;
 
-    if (currY == 0) {pixel.style.background = background.top; return};
-    if (currX == maxX) {pixel.style.background = background.right; return};
-    if (currY == maxY) {pixel.style.background = background.bottom; return};
-    if (currX == 0) {pixel.style.background = background.left; return};
+    if (pixelIsTop) pixel.style.boxShadow = boxShadow.top;
+    if (pixelIsRight) pixel.style.boxShadow = boxShadow.right;
+    if (pixelIsBottom) pixel.style.boxShadow = boxShadow.bottom;
+    if (pixelIsLeft) pixel.style.boxShadow = boxShadow.left;
 
-    pixel.style.background = background.middle;
-
-    // pixel.style.background = 'linear-gradient(to right, transparent, ' + magneticDustColor + ')';
+    pixel.style.background = magneticDustColor;
 };
 
 function renderScreen() {
@@ -131,8 +142,8 @@ function renderScreen() {
             pixel.classList.add('pixel');
             pixel.id = x + ',' + y;
 
-            pixel.style.width = (1 / renderWidth * 100) + '%';
-            pixel.style.height = (1 / renderHeight * 100) + '%';
+            pixel.style.width = 'calc(' + (1 / renderWidth * 100) + '% - 1px)';
+            pixel.style.height = 'calc(' + (1 / renderHeight * 100) + '% - 1px)';
 
             pixel.addEventListener('mouseout', () => {
                 lastCoordinates = setCoordinates(pixel);
