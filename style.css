@@ -219,7 +219,7 @@ svg {
     text-shadow: 0 0 1px black;
     width: 100%;
     text-align: center;
-    gap: 10px;
+    padding-top: 10px;
 }
 
 .marketing-one {
@@ -228,18 +228,43 @@ svg {
     justify-content: center;
 }
 
+.not-kevin {
+    color: rgb(var(--magnetic-dust-color-rgb));
+    transform: rotate(350deg);
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-left: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 20px;
+    background-color: #f0e6d2;
+    letter-spacing: 0.5px;
+    box-shadow: 
+        0 0 1px black,
+        0 0 1px rgb(0, 0, 0, 0.2) inset;
+}
+
 .marketing-two {
     text-transform: uppercase;
     font-size: 12px;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    align-self: flex-end;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .pixel-behavior {
     background-color: #f0e6d2;
-    width: 126px;
+    width: 136px;
     box-shadow: 
         0 0 1px black,
         0 0 1px rgb(0, 0, 0, 0.2) inset;
     cursor: pointer;
+    letter-spacing: 1.5px;
 }
 
 .pixel-behavior:hover {

@@ -182,6 +182,12 @@ function renderScreen() {
 
             pixel.style.width = 'calc(' + (1 / renderWidth * 100) + '% - ' + pixelMargin * 2 + 'px)';
             pixel.style.height = 'calc(' + (1 / renderHeight * 100) + '% - ' + pixelMargin * 2 + 'px)';
+            
+            // this is to make the toy feel like an old p.o.s you found in the garage lol
+                if (Math.random() <= 0.05) {
+                    pixel.style.backgroundColor = 'rgba(43, 43, 43, ' + Math.random() / 10 +')';
+                };
+            //
 
             pixel.addEventListener('mouseout', () => {
                 lastCoordinates = setCoordinates(pixel);
@@ -190,8 +196,9 @@ function renderScreen() {
             pixel.addEventListener('mouseover', () => {
                 currCoordinates = setCoordinates(pixel);
                 animateKnobs();
-                changePixelColor(pixel);
             });
+
+            pixel.addEventListener('mouseover', () => { changePixelColor(pixel) }, { once: true });
 
             screenArea.appendChild(pixel);
         };
